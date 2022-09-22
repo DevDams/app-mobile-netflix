@@ -6,6 +6,7 @@ import Home from "../screens/Home/Home";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import GetStarted from "../screens/GetStarted/GetStarted";
 import Signin from "../screens/Auth/Signin";
+import Main from "../screens/Main/Main";
 
 const Stack = createNativeStackNavigator();
 
@@ -51,6 +52,11 @@ const MainNavigation = () => {
             name="SignIn"
             component={Signin}
             options={{ title: "Sign in", headerShown: false, animation: "slide_from_right" }}
+          />
+          <Stack.Screen
+            name="Main"
+            component={Main}
+            options={{ title: "Main", headerShown: false, animation: "slide_from_right" }}
           />
         </Stack.Navigator>
       </NavigationContainer>
