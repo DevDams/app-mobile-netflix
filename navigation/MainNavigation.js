@@ -9,12 +9,34 @@ import Signin from "../screens/Auth/Signin";
 
 const Stack = createNativeStackNavigator();
 
+const config = {
+  animation: 'spring',
+  config: {
+    stiffness: 100,
+    damping: 500,
+    mass: 2,
+    overshootClamping: false,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01
+  }
+}
 
 const MainNavigation = () => {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator
+          screenOptions={{
+            gestureEnabled: true,
+            gestureDirection: "horizontal",
+            transtionSpec: {
+              open: config,
+              close: config
+            }
+          }}
+          headerMode="float"
+          initialRouteName="Home"
+        >
           <Stack.Screen
             name="Home"
             component={Home}
@@ -23,12 +45,12 @@ const MainNavigation = () => {
           <Stack.Screen
             name="Get Started"
             component={GetStarted}
-            options={{ title: "Get Started", headerShown: false }}
+            options={{ title: "Get Started", headerShown: false, animation: "slide_from_bottom" }}
           />
           <Stack.Screen
             name="SignIn"
             component={Signin}
-            options={{ title: "Sign in", headerShown: false }}
+            options={{ title: "Sign in", headerShown: false, animation: "slide_from_right" }}
           />
         </Stack.Navigator>
       </NavigationContainer>
