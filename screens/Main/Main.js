@@ -4,36 +4,26 @@ import React from "react";
 import MainGame from "./MainGame/MainGame";
 import MainHome from "./MainHome/MainHome";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { useFonts } from "expo-font";
-import { createIconSetFromIcoMoon } from "@expo/vector-icons";
 import COLORS from "../../contants/color";
+
+import HomeIcon from './../../assets/icons/dark/home.svg'
+import HomeIconLight from './../../assets/icons/light/home.svg'
+import NewsIcon from './../../assets/icons/dark/news.svg'
+import NewsIconLight from './../../assets/icons/light/news.svg'
+import SmileIcon from './../../assets/icons/dark/rire.svg'
+import SmileIconLight from './../../assets/icons/light/smile.svg'
+import GameIcon from './../../assets/icons/dark/game.svg'
+import GameIconLight from './../../assets/icons/light/game.svg'
+import DownloadIcon from './../../assets/icons/dark/download.svg'
+import DownloadIconLight from './../../assets/icons/light/download.svg'
 
 const Tab = createBottomTabNavigator();
 
-const Icon = createIconSetFromIcoMoon(
-  require("./../../assets/icons/selection.json"),
-  "IcoMoon",
-  "icomoon.ttf"
-);
-
 function MyTabBar({ state, descriptors, navigation }) {
-  const [fontsLoaded] = useFonts({
-    IcoMoon: require("./../../assets/icons/icomoon.ttf"),
-  });
-
-  if (!fontsLoaded) {
-    return null;
-  }
   return (
     <View style={{ flexDirection: "row", height: 55, alignItems: "center", backgroundColor: COLORS.grayDark2 }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
 
         const isFocused = state.index === index;
 
@@ -66,10 +56,14 @@ function MyTabBar({ state, descriptors, navigation }) {
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
-            style={{ flex: 1, backgroundColor: COLORS.grayDark2, alignItems: "center" }}
+            style={{ flex: 1, backgroundColor: COLORS.grayDark2, alignItems: "center", justifyContent: "center", height: "100%" }}
             key={index}
           >
-            <Icon name={route.name === 'Home' ? "home" : route.name === 'Game' ? "loop" : route.name === 'Recommandations' ? "news" : route.name === 'Stories' ? "rire" : "download"} size={20} color={isFocused ? COLORS.white : COLORS.gray} />
+            {route.name === 'Home' && !isFocused ? (<HomeIcon width={22} height={22} />) : route.name === 'Home' && isFocused ? (<HomeIconLight width={22} height={22} />) : null}
+            {route.name === 'Game' && !isFocused ? (<GameIcon width={25} height={25} />) : route.name === 'Game' && isFocused ? (<GameIconLight width={25} height={25} />) : null}
+            {route.name === 'Recommandations' && !isFocused ? (<NewsIcon width={22} height={22} />) : route.name === 'Recommandations' && isFocused ? (<NewsIconLight width={22} height={22} />) : null}
+            {route.name === 'Stories' && !isFocused ? (<SmileIcon width={22} height={22} />) : route.name === 'Stories' && isFocused ? (<SmileIconLight width={22} height={22} />) : null}
+            {route.name === 'Download' && !isFocused ? (<DownloadIcon width={22} height={22} />) : route.name === 'Download' && isFocused ? (<DownloadIconLight width={22} height={22} />) : null}
           </TouchableOpacity>
         );
       })}
@@ -84,6 +78,7 @@ const Main = () => {
         screenOptions={{
           tabBarStyle: { backgroundColor: "black", borderTopColor: "black" },
         }}
+        initialRouteName="Home"
         tabBar={(props) => <MyTabBar {...props} />}
       >
         <Tab.Screen

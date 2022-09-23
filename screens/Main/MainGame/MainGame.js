@@ -7,7 +7,7 @@ const MainGame = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.black }}>
       <View>
-        <Text style={{ color: "white" }}>MainHome</Text>
+        <Text style={{ color: "white" }}>Main Game</Text>
       </View>
     </SafeAreaView>
   )
