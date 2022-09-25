@@ -5,13 +5,19 @@ import COLORS from "../../../contants/color";
 import DynamicHeader from "../../../components/DynamicHeader";
 import { getCloser } from "../../../helpers";
 import MainHomeHeader from "../../../components/MainHomeHeader";
+import { LinearGradient } from "expo-linear-gradient";
+import { Image } from "native-base";
+import Categorie from "../../../components/Categorie";
 
 const { diffClamp } = Animated;
 const headerHeight = 58 * 2;
+const Banner = require("./../../../assets/violet.png");
 
 const MainHome = () => {
-  const scrollView  = React.createRef();
-  
+  const [openCategorie, setOpenCategorie] = React.useState(false);
+  const [topVal, setTopVal] = React.useState(0);
+  const scrollView = React.createRef();
+
   const scrollY = useRef(new Animated.Value(0));
   const scrollYClamped = diffClamp(scrollY.current, 0, headerHeight);
 
@@ -24,18 +30,22 @@ const MainHome = () => {
     translateYNumber.current = value;
   });
 
-  const handleScroll = Animated.event(
-    [
-      {
-        nativeEvent: {
-          contentOffset: { y: scrollY.current },
+  const handleScroll = ({ nativeEvent }) => {
+    const offsetY = nativeEvent.contentOffset.y;
+    setTopVal(offsetY)
+    Animated.event(
+      [
+        {
+          nativeEvent: {
+            contentOffset: { y: scrollY.current },
+          },
         },
-      },
-    ],
-    {
-      useNativeDriver: true,
-    }
-  );
+      ],
+      {
+        useNativeDriver: true,
+      }
+    )
+  };
 
   const handleSnap = ({ nativeEvent }) => {
     const offsetY = nativeEvent.contentOffset.y;
@@ -57,12 +67,18 @@ const MainHome = () => {
     }
   };
 
+  const handleOpenCategorie = (val) => {
+    setOpenCategorie(val)
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.black }}>
       <MainHomeHeader />
 
       <Animated.View style={[styles.header, { transform: [{ translateY }] }]}>
-        <DynamicHeader {...{ headerHeight }} />
+        {
+          (topVal <= 70) ? <DynamicHeader {...{ headerHeight }} showCategorie={handleOpenCategorie} /> : null
+        }
       </Animated.View>
 
       <Animated.ScrollView
@@ -72,8 +88,36 @@ const MainHome = () => {
         onMomentumScrollEnd={handleSnap}
         contentContainerStyle={{ paddingTop: headerHeight / 2.5 }}
       >
-        <View style={{ height: 500, width: "100%", backgroundColor: "blue", position: "absolute", top: 0 }}></View>
-        <Text style={{ color: "white", fontSize: 21, marginTop: 480 }}>MainHome</Text>
+        <View
+          style={{
+            height: 500,
+            width: "100%",
+            backgroundColor: "blue",
+            position: "absolute",
+            top: 0,
+          }}
+        >
+          <LinearGradient
+            // Background Linear Gradient
+            colors={["rgba(0,0,0,0.8)", "transparent", "transparent", "transparent", "transparent", "transparent"]}
+            style={styles.gradient}
+          />
+          <Image
+            style={{ width: "100%", height: "100%" }}
+            source={Banner}
+            resizeMode="cover"
+            alt="Banner"
+          />
+          <LinearGradient
+            // Background Linear Gradient
+            colors={["transparent", "transparent", "transparent", "transparent", "rgba(0,0,0,1)"]}
+            style={styles.gradient}
+          />
+        </View>
+
+        <Text style={{ color: "white", fontSize: 21, marginTop: 480 }}>
+          MainHome
+        </Text>
         <Text style={{ color: "white", fontSize: 21 }}>MainHome</Text>
         <Text style={{ color: "white", fontSize: 21 }}>MainHome</Text>
         <Text style={{ color: "white", fontSize: 21 }}>MainHome</Text>
@@ -116,6 +160,9 @@ const MainHome = () => {
         <Text style={{ color: "white", fontSize: 21 }}>MainHome</Text>
         <Text style={{ color: "white", fontSize: 21 }}>MainHome</Text>
       </Animated.ScrollView>
+
+
+      {openCategorie ? <Categorie showCategorie={handleOpenCategorie} /> : null}
     </SafeAreaView>
   );
 };
@@ -130,5 +177,11 @@ const styles = StyleSheet.create({
     right: 0,
     width: "100%",
     zIndex: 1,
+  },
+  gradient: {
+    position: "absolute",
+    zIndex: 99,
+    width: "100%",
+    height: "100%"
   },
 });
