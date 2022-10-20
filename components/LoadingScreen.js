@@ -7,7 +7,7 @@ import FONTS from "../contants/font";
 const LoadingScreen = ({ navigation }) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate("Main");
+      navigation.navigate("ChooseProfil");
     }, 3000);
   }, []);
 

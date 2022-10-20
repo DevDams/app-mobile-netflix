@@ -7,6 +7,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import GetStarted from "../screens/GetStarted/GetStarted";
 import Signin from "../screens/Auth/Signin";
 import Main from "../screens/Main/Main";
+import ChooseProfil from "../screens/ChooseProfil/ChooseProfil";
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +58,11 @@ const MainNavigation = () => {
             name="Main"
             component={Main}
             options={{ title: "Main", headerShown: false, animation: "slide_from_right" }}
+          />
+          <Stack.Screen
+            name="ChooseProfil"
+            component={ChooseProfil}
+            options={{ title: "Choose Profil", headerShown: false, animation: "slide_from_right" }}
           />
         </Stack.Navigator>
       </NavigationContainer>
