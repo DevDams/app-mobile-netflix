@@ -8,6 +8,7 @@ import GetStarted from "../screens/GetStarted/GetStarted";
 import Signin from "../screens/Auth/Signin";
 import Main from "../screens/Main/Main";
 import ChooseProfil from "../screens/ChooseProfil/ChooseProfil";
+import AddProfil from "../screens/AddProfil/AddProfil";
 
 const Stack = createNativeStackNavigator();
 
@@ -63,6 +64,11 @@ const MainNavigation = () => {
             name="ChooseProfil"
             component={ChooseProfil}
             options={{ title: "Choose Profil", headerShown: false, animation: "slide_from_right" }}
+          />
+          <Stack.Screen
+            name="AddProfil"
+            component={AddProfil}
+            options={{ title: "Add Profil", headerShown: false, animation: "slide_from_right" }}
           />
         </Stack.Navigator>
       </NavigationContainer>
